@@ -30,61 +30,61 @@ services:
     depends_on:
       - keycloak
 
-    #  #*****************
-  gateway_service:
-    image: ecmfantome/getaway_po2:1
-    container_name: gateway-service
-    ports:
-      - '4001:4001'
-    expose:
-      - 4001
-    environment:
-      - DISCOVERY_URL=http://discovery-service:8761/eureka
-    #      - CONFIG_URL=http://config-service
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4001/actuator/health" ]
-    depends_on:
-      discovery-service:
-        condition: service_healthy
-
-    #          *****************
-  user_service:
-    image: ecmfantome/user_po2:2
-    container_name: user-service
-    ports:
-      - '4002:4002'
-    expose:
-      - 4002
-    environment:
-      - DISCOVERY_URL=http://discovery-service:8761/eureka
-      #      - CONFIG_URL=http://config-service:4000
-      - DB_URL=database-po2.chk8cgigwh9s.us-east-1.rds.amazonaws.com:3306/user_db
-      - SERVER_URL=http://keycloak:8080
-      - JWT_ISSUER_URI=http://keycloak:8080/realms/po2
-      - JWT_AUTH_URI=http://keycloak:8080/realms/po2/protocol/openid-connect/token
-    #      - REALM_CLIENT_SECRET=TON SECRET ICI puis decommenté
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4002/actuator/health" ]
-      interval: 10s
-      retries: 5
-    depends_on:
-      gateway_service:
-        condition: service_healthy
-
-  campagne_service:
-    image: ecmfantome/campagne_po2:2
-    container_name: campagne-service
-    ports:
-      - '4003:4003'
-    expose:
-      - 4003
-    environment:
-      - DISCOVERY_URL=http://discovery-service:8761/eureka
-    #      - CONFIG_URL=http://config-service
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4001/actuator/health" ]
-    depends_on:
-      gateway_service:
-        condition: service_healthy
-
-
+#    #  #*****************
+#  gateway_service:
+#    image: ecmfantome/getaway_po2:2
+#    container_name: gateway-service
+#    ports:
+#      - '4001:4001'
+#    expose:
+#      - 4001
+#    environment:
+#      - DISCOVERY_URL=http://discovery-service:8761/eureka
+#    #      - CONFIG_URL=http://config-service
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:4001/actuator/health" ]
+#    depends_on:
+#      discovery-service:
+#        condition: service_healthy
+#
+#    #          *****************
+#  user_service:
+#    image: ecmfantome/user_po2:4
+#    container_name: user-service
+#    ports:
+#      - '4002:4002'
+#    expose:
+#      - 4002
+#    environment:
+#      - DISCOVERY_URL=http://discovery-service:8761/eureka
+#      #      - CONFIG_URL=http://config-service:4000
+#      - DB_URL=database-po2.chk8cgigwh9s.us-east-1.rds.amazonaws.com:3306/user_db
+#      - SERVER_URL=http://keycloak:8080
+#      - JWT_ISSUER_URI=http://keycloak:8080/realms/po2
+#      - JWT_AUTH_URI=http://keycloak:8080/realms/po2/protocol/openid-connect/token
+#    #      - REALM_CLIENT_SECRET=TON SECRET ICI puis decommenté
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:4002/actuator/health" ]
+#      interval: 10s
+#      retries: 5
+#    depends_on:
+#      gateway_service:
+#        condition: service_healthy
+#
+#  campagne_service:
+#    image: ecmfantome/campagne_po2:6
+#    container_name: campagne-service
+#    ports:
+#      - '4003:4003'
+#    expose:
+#      - 4003
+#    environment:
+#      - DISCOVERY_URL=http://discovery-service:8761/eureka
+#    #      - CONFIG_URL=http://config-service
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:4001/actuator/health" ]
+#    depends_on:
+#      gateway_service:
+#        condition: service_healthy
+#
+#
